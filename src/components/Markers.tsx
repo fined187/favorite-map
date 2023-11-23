@@ -15,7 +15,7 @@ export default function Markers({ map, storeData, setCurrentStore }: MarkerProps
       storeData?.map((store: any) => {
       
       let markerPosition = new window.kakao.maps.LatLng((store?.y_dnts), (store?.x_cnts));
-      let imageSrc = store.bizcnd_code_nm ? `/images/markers/${store.bizcnd_code_nm}.png` : `/images/markers/default.png`;
+      let imageSrc = store.bizcnd_code_nm ? `/Image/markers/${store.bizcnd_code_nm}.png` : `/images/markers/default.png`;
       let imageSize = new window.kakao.maps.Size(40, 40);
       let imageOption = { offset: new window.kakao.maps.Point(27, 69) };
 
