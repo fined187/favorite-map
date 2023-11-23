@@ -1,4 +1,4 @@
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
 
 export default function StoreEditPage() {
   const router = useRouter();
@@ -7,5 +7,5 @@ export default function StoreEditPage() {
     <>
       <h1>{id}</h1>
     </>
-  )
+  );
 }

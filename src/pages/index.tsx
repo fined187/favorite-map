@@ -1,37 +1,17 @@
-import Layout from "@/component/Layout";
-import Link from "next/link";
-
+import Map from "@/components/Map";
+import Markers from "@/components/Markers";
+import * as stores from "@/data/store_data.json";
+import {useState} from "react";
 
 export default function Home() {
-
+  const [map, setMap] = useState(null);
+  const [currentStore, setCurrentStore] = useState(null);
+  const storeData = stores["DATA"];
+  console.log(currentStore);
   return (
-    <Layout>
-      <div>
-        <h1>Map Index Page</h1>
-        <ul>
-          <li>
-            <Link href="/stores">맛집 목록</Link>
-          </li>
-          <li>
-            <Link href="/stores/new">맛집 생성</Link>
-          </li>
-          <li>
-            <Link href="/stores/1">맛집 상세 페이지</Link>
-          </li>
-          <li>
-            <Link href="/stores/1/edit">맛집 수정 페이지</Link>
-          </li>
-          <li>
-            <Link href="/users/login">로그인</Link>
-          </li>
-          <li>
-            <Link href="/users/mypage">마이페이지</Link>
-          </li>
-          <li>
-            <Link href="/users/likes">찜한 맛집</Link>
-          </li>
-        </ul>
-      </div>
-    </Layout>
-  )
+    <>
+      <Map setMap={setMap} />
+      <Markers storeData={storeData} map={map} setCurrentStore={setCurrentStore} />
+    </>
+  );
 }
