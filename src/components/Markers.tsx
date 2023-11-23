@@ -3,16 +3,16 @@ import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
 interface MarkerProps {
   map: any;
-  storeData: any[];
+  stores: any[];
   setCurrentStore: Dispatch<SetStateAction<any>>;
 }
 
-export default function Markers({ map, storeData, setCurrentStore }: MarkerProps) {
+export default function Markers({ map, stores, setCurrentStore }: MarkerProps) {
 
   const loadKakaoMarkers = useCallback(() => {
     if (map) {
       //  kakao map marker
-      storeData?.map((store: any) => {
+      stores?.map((store: any) => {
       
       let markerPosition = new window.kakao.maps.LatLng((store?.y_dnts), (store?.x_cnts));
       let imageSrc = store.bizcnd_code_nm ? `/Image/markers/${store.bizcnd_code_nm}.png` : `/images/markers/default.png`;
@@ -61,7 +61,7 @@ export default function Markers({ map, storeData, setCurrentStore }: MarkerProps
       });
       })
     }
-  }, [map, storeData, setCurrentStore])
+  }, [map, stores, setCurrentStore])
 
   useEffect(() => {
     loadKakaoMarkers();
