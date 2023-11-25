@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
 interface MarkerProps {
   map: any;
-  stores: any[];
+  stores: StoreType[];
   setCurrentStore: Dispatch<SetStateAction<any>>;
 }
 
@@ -14,8 +14,8 @@ export default function Markers({ map, stores, setCurrentStore }: MarkerProps) {
       //  kakao map marker
       stores?.map((store: any) => {
       
-      let markerPosition = new window.kakao.maps.LatLng((store?.y_dnts), (store?.x_cnts));
-      let imageSrc = store.bizcnd_code_nm ? `/Image/markers/${store.bizcnd_code_nm}.png` : `/images/markers/default.png`;
+      let markerPosition = new window.kakao.maps.LatLng((store?.lat), (store?.lng));
+      let imageSrc = store?.category ? `/Image/markers/${store?.category}.png` : `/images/markers/default.png`;
       let imageSize = new window.kakao.maps.Size(40, 40);
       let imageOption = { offset: new window.kakao.maps.Point(27, 69) };
 
@@ -32,7 +32,7 @@ export default function Markers({ map, stores, setCurrentStore }: MarkerProps) {
       marker.setMap(map);
 
       //  kakao map info window
-      let content = `<div class="infowindow">${store?.upso_nm}</div>`;
+      let content = `<div class="infowindow">${store?.name}</div>`;
       let customOverlay = new window.kakao.maps.CustomOverlay({
         position: markerPosition,
         content: content,
