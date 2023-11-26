@@ -3,13 +3,11 @@ import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 import { AiOutlineClose, AiOutlineInfoCircle, AiOutlineCheck, AiOutlineForm, AiOutlinePhone } from "react-icons/ai";
 import { HiOutlineMapPin } from "react-icons/hi2";
+import { currentStoreState } from "@/atom";
+import { useRecoilState } from "recoil";
 
-interface StoreBoxProps {
-  store: StoreType | null;
-  setStore: Dispatch<SetStateAction<any>>;
-}
-
-export default function StoreBox({ store, setStore }: StoreBoxProps) {
+export default function StoreBox() {
+  const [store, setStore] = useRecoilState(currentStoreState);
   let imageSrc = store?.category ? `/Image/markers/${store?.category}.png` : `/images/markers/default.png`;
   return (
     <div className="fixed transition ease-in-out delay-150 inset-x-0 mx-auto bottom-20 rounded-lg shadow-lg max-w-sm md:max-w-xl z-10 w-full bg-white">
