@@ -1,6 +1,5 @@
 /* global kakao */
 import Script from "next/script";
-import * as stores from "@/data/store_data.json";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 declare global {

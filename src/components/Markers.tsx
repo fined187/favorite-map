@@ -1,4 +1,4 @@
-import { StoreType } from "@/interface";
+import { StoreApiResponse, StoreType } from "@/interface";
 import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
 interface MarkerProps {
@@ -8,7 +8,6 @@ interface MarkerProps {
 }
 
 export default function Markers({ map, stores, setCurrentStore }: MarkerProps) {
-
   const loadKakaoMarkers = useCallback(() => {
     if (map) {
       //  kakao map marker
