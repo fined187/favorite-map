@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef } from "react";
+'use client';
+import React, { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { StoreApiResponse, StoreType } from "@/interface";
 import Image from "next/image";
 import axios from "axios";
@@ -11,10 +12,10 @@ import useIntersectionObserver from "@/hook/useIntersectionObserver";
 import Loader from "@/components/Loader";
 
 export default function StoreListPage() {
+
   const ref = useRef<HTMLDivElement | null>(null);
   const pageRef = useIntersectionObserver(ref, {});
   const isPageEnd = !!pageRef?.isIntersecting;
-  console.log(pageRef);
 
   const router = useRouter();
   const { page = '1' }: any = router.query;
@@ -24,17 +25,28 @@ export default function StoreListPage() {
   //   return data as StoreApiResponse;
   // });
 
+  console.log(useIntersectionObserver(ref, {}));
+
   const fetchStores = async ({ pageParam = 1}) => {
-    const { data } = await axios(`/api/stores?page=` + pageParam, {
+    const { data } = await axios("/api/stores?page=" + pageParam, {
       params: {
         limit: 10,
         page: pageParam,
       }
     });
+    console.log(data);
     return data;
-  }
+  };
 
-  const { data: stores, isFetching, fetchNextPage, isFetchingNextPage, hasNextPage, isError, isLoading } = useInfiniteQuery('stores', fetchStores, {
+  const { 
+    data: stores, 
+    isFetching, 
+    fetchNextPage, 
+    isFetchingNextPage, 
+    hasNextPage, 
+    isError, 
+    isLoading 
+  } = useInfiniteQuery('stores', fetchStores, {
     getNextPageParam: (lastPage: any) => lastPage.data?.length > 0 ? lastPage.page + 1 : undefined,
   });
 
@@ -45,7 +57,6 @@ export default function StoreListPage() {
     }
   }, [fetchNextPage])
   
-
   useEffect(() => {
     let timerId: NodeJS.Timeout | undefined;
     if (isPageEnd && hasNextPage) {
@@ -54,9 +65,8 @@ export default function StoreListPage() {
       }, 500)
       fetchNextPage();
     }
-
     return () => clearTimeout(timerId);
-  }, [fetchNext, isPageEnd, hasNextPage])
+  }, [fetchNext, isPageEnd, hasNextPage]);
 
 
   if (isError) {
@@ -96,7 +106,6 @@ export default function StoreListPage() {
               </div>
             </li>
           ))}
-          
         </React.Fragment>
       ))
     }
@@ -111,7 +120,8 @@ export default function StoreListPage() {
           <Pagination totalPage={stores.totalPage} page={page} />
         )
       } */}
-      <div className="w-full touch-none h-10 mb-10 bg-red-500" ref={ref} />
+      <div className="w-full touch-none h-10 mb-10" ref={ref}>
+      </div>
     </div>
   );
 }
