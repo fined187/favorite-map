@@ -14,7 +14,7 @@ export const mapState = atom({
 export const currentStoreState = atom<StoreType | null>({
   key: 'store',
   default: null
-})
+});
 
 export const locationState = atom<LocationType>({
   key: 'location',
@@ -23,4 +23,4 @@ export const locationState = atom<LocationType>({
     lng: DEFAULT_LNG,
     zoom: DEFAULT_ZOOM
   }
-})
+});

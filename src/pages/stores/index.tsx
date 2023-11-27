@@ -10,31 +10,34 @@ import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import useIntersectionObserver from "@/hook/useIntersectionObserver";
 import Loader from "@/components/Loader";
+import SearchFilter from "@/components/SearchFilter";
 
 export default function StoreListPage() {
 
   const ref = useRef<HTMLDivElement | null>(null);
   const pageRef = useIntersectionObserver(ref, {});
   const isPageEnd = !!pageRef?.isIntersecting;
+  const [q, setQ] = useState<string | null>(null);
+  const [district, setDistrict] = useState<string | null>(null);
 
-  const router = useRouter();
-  const { page = '1' }: any = router.query;
+  const searchParams = {
+    q:q,
+    district: district,
+  };
   
   // const {isLoading, isError, data: stores} = useQuery(`stores-${page}`, async () => {
   //   const { data } = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/stores?page=${page}`);
   //   return data as StoreApiResponse;
   // });
 
-  console.log(useIntersectionObserver(ref, {}));
-
   const fetchStores = async ({ pageParam = 1}) => {
     const { data } = await axios("/api/stores?page=" + pageParam, {
       params: {
         limit: 10,
         page: pageParam,
+        ...searchParams,
       }
     });
-    console.log(data);
     return data;
   };
 
@@ -46,7 +49,7 @@ export default function StoreListPage() {
     hasNextPage, 
     isError, 
     isLoading 
-  } = useInfiniteQuery('stores', fetchStores, {
+  } = useInfiniteQuery(['stores', searchParams], fetchStores, {
     getNextPageParam: (lastPage: any) => lastPage.data?.length > 0 ? lastPage.page + 1 : undefined,
   });
 
@@ -72,9 +75,11 @@ export default function StoreListPage() {
   if (isError) {
     return <div className="w-full h-screen mx-auto pt-[30%] text-red-500 font-semibold">다시 시도해주세요</div>;
   }
-
+  
   return (
     <div className="px-4 md:max-w-5xl mx-auto py-8">
+      {/* search filter */}
+      <SearchFilter setQ={setQ} setDistrict={setDistrict} />
       <ul role="list" className="divide-y divide-gray-100">
     {
       isLoading ? <Loading /> :

@@ -1,22 +1,18 @@
 import { currentStoreState, locationState, mapState } from "@/atom";
-import {  StoreType } from "@/interface";
+import { StoreType } from "@/interface";
 import { useCallback, useEffect } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {  useRecoilValue } from "recoil";
 
 interface MarkerProps {
-  stores: StoreType[];
+  store: StoreType;
 }
 
-export default function Markers({ stores }: MarkerProps) {
+export default function Marker({ store }: MarkerProps) {
   const map = useRecoilValue(mapState);
-  const setCurrentStore = useSetRecoilState(currentStoreState);
-  const [location, setLocation] = useRecoilState(locationState);
   
-  const loadKakaoMarkers = useCallback(() => {
+  const loadKakaoMarker = useCallback(() => {
     if (map) {
       //  kakao map marker
-      stores?.map((store: any) => {
-      
       let markerPosition = new window.kakao.maps.LatLng((store?.lat), (store?.lng));
       let imageSrc = store?.category ? `/Image/markers/${store?.category}.png` : `/images/markers/default.png`;
       let imageSize = new window.kakao.maps.Size(40, 40);
@@ -43,39 +39,19 @@ export default function Markers({ stores }: MarkerProps) {
         yAnchor: 0.91,
       });
 
-      window.kakao.maps.event.addListener(
-        marker,
-        "mouseover",
-        function () {
-          customOverlay.setMap(map);
-        }
-      );
-      window.kakao.maps.event.addListener(
-        marker,
-        "mouseout",
-        function () {
-          customOverlay.setMap(null);
-        }
-      );
-
-      window.kakao.maps.event.addListener(marker, "click", function () {
-        setCurrentStore(store);
-        setLocation({
-          ...location,
-          lat: store.lat,
-          lng: store.lng,
-        })
+      window.kakao.maps.event.addListener(marker, "mouseover", function () {
+        customOverlay.setMap(map);
       });
-      })
-    }
-  }, [map, stores])
+
+      window.kakao.maps.event.addListener(marker, "mouseout", function () {
+        customOverlay.setMap(map);
+      });
+  }}, [map, store]);
 
   useEffect(() => {
-    loadKakaoMarkers();
-  }, [loadKakaoMarkers, map])
+    loadKakaoMarker();
+  }, [loadKakaoMarker, map])
   return (
-    <>
-    
-    </>
+    <></>
   )
 }

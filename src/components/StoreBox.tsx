@@ -5,8 +5,10 @@ import { AiOutlineClose, AiOutlineInfoCircle, AiOutlineCheck, AiOutlineForm, AiO
 import { HiOutlineMapPin } from "react-icons/hi2";
 import { currentStoreState } from "@/atom";
 import { useRecoilState } from "recoil";
+import { useRouter } from "next/router";
 
 export default function StoreBox() {
+  const router = useRouter();
   const [store, setStore] = useRecoilState(currentStoreState);
   let imageSrc = store?.category ? `/Image/markers/${store?.category}.png` : `/images/markers/default.png`;
   return (
@@ -50,7 +52,7 @@ export default function StoreBox() {
               {store?.category}
             </div>
           </div>
-          <button type="button" onClick={() => window.alert("상세보기 작업중")} className="w-full bg-blue-700 hover:bg-blue-500 focus:bg-blue-500 py-3 text-white font-semibold rounded-lg">
+          <button type="button" onClick={() => router.push(`/stores/${store.id}`)} className="w-full bg-blue-700 hover:bg-blue-500 focus:bg-blue-500 py-3 text-white font-semibold rounded-lg">
             상세보기
           </button>
         </>
