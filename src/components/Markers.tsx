@@ -68,14 +68,13 @@ export default function Markers({ stores }: MarkerProps) {
       });
       })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, stores])
 
   useEffect(() => {
     loadKakaoMarkers();
   }, [loadKakaoMarkers, map])
   return (
-    <>
-    
-    </>
+    (<></>)
   )
 }

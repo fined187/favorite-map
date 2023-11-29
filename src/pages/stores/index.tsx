@@ -1,28 +1,28 @@
 'use client';
-import React, { RefObject, useCallback, useEffect, useRef, useState } from "react";
-import { StoreApiResponse, StoreType } from "@/interface";
+import React, { useCallback, useEffect, useRef } from "react";
+import { StoreType } from "@/interface";
 import Image from "next/image";
 import axios from "axios";
-import { useInfiniteQuery, useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import Loading from "@/components/Loading";
 import { useRouter } from "next/router";
-import Link from "next/link";
-import Pagination from "@/components/Pagination";
 import useIntersectionObserver from "@/hook/useIntersectionObserver";
 import Loader from "@/components/Loader";
 import SearchFilter from "@/components/SearchFilter";
+import { useRecoilValue } from "recoil";
+import { searchState } from "@/atom";
 
 export default function StoreListPage() {
 
+  const router = useRouter();
   const ref = useRef<HTMLDivElement | null>(null);
   const pageRef = useIntersectionObserver(ref, {});
   const isPageEnd = !!pageRef?.isIntersecting;
-  const [q, setQ] = useState<string | null>(null);
-  const [district, setDistrict] = useState<string | null>(null);
+  const searchValue = useRecoilValue(searchState);
 
   const searchParams = {
-    q:q,
-    district: district,
+    q: searchValue?.q,
+    district: searchValue?.district,
   };
   
   // const {isLoading, isError, data: stores} = useQuery(`stores-${page}`, async () => {
@@ -71,22 +71,22 @@ export default function StoreListPage() {
     return () => clearTimeout(timerId);
   }, [fetchNext, isPageEnd, hasNextPage]);
 
-
+  
   if (isError) {
     return <div className="w-full h-screen mx-auto pt-[30%] text-red-500 font-semibold">다시 시도해주세요</div>;
   }
-  
+
   return (
     <div className="px-4 md:max-w-5xl mx-auto py-8">
       {/* search filter */}
-      <SearchFilter setQ={setQ} setDistrict={setDistrict} />
+      <SearchFilter />
       <ul role="list" className="divide-y divide-gray-100">
     {
       isLoading ? <Loading /> :
       stores?.pages?.map((page, index) => (
         <React.Fragment key={index}>
           {page.data.map((store: StoreType, i: number) => (
-            <li className="flex justify-between gap-x-6 py-5" key={i}>
+            <li className="flex justify-between gap-x-6 py-5 cursor-pointer hover:bg-gray-50" key={i} onClick={() => router.push(`stores/${store?.id}`)} >
               <div className="flex gap-x-4">
                 <Image 
                   src={store.category ? `/Image/markers/${store.category}.png` : `/Image/markers/default.png`}
