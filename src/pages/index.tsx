@@ -5,8 +5,7 @@ import { StoreType } from "@/interface";
 import { useState } from "react";
 import axios from "axios";
 
-export default function Home({ stores }: { stores: StoreType[]}) {
-
+export default function Home({ stores }: { stores: StoreType[] }) {
   return (
     <>
       <Map />
@@ -17,7 +16,7 @@ export default function Home({ stores }: { stores: StoreType[]}) {
 }
 
 export async function getStaticProps() {
-  const stores = await axios (`${process.env.NEXT_PUBLIC_API_URL}/api/stores`);
+  const stores = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`);
   return {
     props: { stores: stores.data },
     revalidate: 60 * 60,

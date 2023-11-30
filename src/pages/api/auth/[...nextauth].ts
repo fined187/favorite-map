@@ -1,16 +1,15 @@
-import GoogleProvider from 'next-auth/providers/google';
-import NextAuth from 'next-auth/next'
-import { PrismaAdapter } from '@auth/prisma-adapter'
-import NaverProvider from 'next-auth/providers/naver';
-import KakaoProvider from 'next-auth/providers/kakao';
-import prisma from '@/db';
-
+import GoogleProvider from "next-auth/providers/google";
+import NextAuth from "next-auth/next";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import NaverProvider from "next-auth/providers/naver";
+import KakaoProvider from "next-auth/providers/kakao";
+import prisma from "@/db";
 
 export const authOptions = {
   session: {
     strategy: "jwt" as const,
     maxAge: 60 * 60 * 24,
-    updateAge: 60 * 60 * 2
+    updateAge: 60 * 60 * 2,
   },
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -28,7 +27,7 @@ export const authOptions = {
     }),
   ],
   pages: {
-    signIn: "/users/login"
+    signIn: "/users/login",
   },
 };
 

@@ -17,7 +17,7 @@ export interface StoreApiResponse {
   page?: number;
 }
 
-export interface LocationType  {
+export interface LocationType {
   lat?: string | null;
   lng?: string | null;
   zoom?: number | null;

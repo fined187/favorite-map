@@ -1,5 +1,5 @@
 import { currentStoreState, locationState, mapState } from "@/atom";
-import {  StoreType } from "@/interface";
+import { StoreType } from "@/interface";
 import { useCallback, useEffect } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -11,70 +11,64 @@ export default function Markers({ stores }: MarkerProps) {
   const map = useRecoilValue(mapState);
   const setCurrentStore = useSetRecoilState(currentStoreState);
   const [location, setLocation] = useRecoilState(locationState);
-  
+
   const loadKakaoMarkers = useCallback(() => {
     if (map) {
       //  kakao map marker
       stores?.map((store: any) => {
-      
-      let markerPosition = new window.kakao.maps.LatLng((store?.lat), (store?.lng));
-      let imageSrc = store?.category ? `/Image/markers/${store?.category}.png` : `/images/markers/default.png`;
-      let imageSize = new window.kakao.maps.Size(40, 40);
-      let imageOption = { offset: new window.kakao.maps.Point(27, 69) };
+        let markerPosition = new window.kakao.maps.LatLng(
+          store?.lat,
+          store?.lng,
+        );
+        let imageSrc = store?.category
+          ? `/Image/markers/${store?.category}.png`
+          : `/images/markers/default.png`;
+        let imageSize = new window.kakao.maps.Size(40, 40);
+        let imageOption = { offset: new window.kakao.maps.Point(27, 69) };
 
-      let markerImage = new window.kakao.maps.MarkerImage(
-        imageSrc,
-        imageSize,
-        imageOption
-      );
-      let marker = new window.kakao.maps.Marker({
-        position: markerPosition,
-        image: markerImage,
-      });
+        let markerImage = new window.kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption,
+        );
+        let marker = new window.kakao.maps.Marker({
+          position: markerPosition,
+          image: markerImage,
+        });
 
-      marker.setMap(map);
+        marker.setMap(map);
 
-      //  kakao map info window
-      let content = `<div class="infowindow">${store?.name}</div>`;
-      let customOverlay = new window.kakao.maps.CustomOverlay({
-        position: markerPosition,
-        content: content,
-        xAnchor: 0.6,
-        yAnchor: 0.91,
-      });
+        //  kakao map info window
+        let content = `<div class="infowindow">${store?.name}</div>`;
+        let customOverlay = new window.kakao.maps.CustomOverlay({
+          position: markerPosition,
+          content: content,
+          xAnchor: 0.6,
+          yAnchor: 0.91,
+        });
 
-      window.kakao.maps.event.addListener(
-        marker,
-        "mouseover",
-        function () {
+        window.kakao.maps.event.addListener(marker, "mouseover", function () {
           customOverlay.setMap(map);
-        }
-      );
-      window.kakao.maps.event.addListener(
-        marker,
-        "mouseout",
-        function () {
+        });
+        window.kakao.maps.event.addListener(marker, "mouseout", function () {
           customOverlay.setMap(null);
-        }
-      );
+        });
 
-      window.kakao.maps.event.addListener(marker, "click", function () {
-        setCurrentStore(store);
-        setLocation({
-          ...location,
-          lat: store.lat,
-          lng: store.lng,
-        })
+        window.kakao.maps.event.addListener(marker, "click", function () {
+          setCurrentStore(store);
+          setLocation({
+            ...location,
+            lat: store.lat,
+            lng: store.lng,
+          });
+        });
       });
-      })
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, stores])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, stores]);
 
   useEffect(() => {
     loadKakaoMarkers();
-  }, [loadKakaoMarkers, map])
-  return (
-    (<></>)
-  )
+  }, [loadKakaoMarkers, map]);
+  return <></>;
 }

@@ -11,7 +11,7 @@ declare global {
 }
 
 interface MapProps {
-  lat?: string| null;
+  lat?: string | null;
   lng?: string | null;
   zoom?: number;
 }
@@ -27,7 +27,7 @@ export default function Map({ lat, lng, zoom }: MapProps) {
       const mapOption = {
         center: new window.kakao.maps.LatLng(
           lat ?? location.lat,
-          lng ?? location.lng
+          lng ?? location.lng,
         ),
         level: zoom ?? location.zoom,
       };

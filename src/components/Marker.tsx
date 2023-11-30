@@ -1,7 +1,7 @@
 import { currentStoreState, locationState, mapState } from "@/atom";
 import { StoreType } from "@/interface";
 import { useCallback, useEffect } from "react";
-import {  useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 
 interface MarkerProps {
   store: StoreType;
@@ -9,19 +9,21 @@ interface MarkerProps {
 
 export default function Marker({ store }: MarkerProps) {
   const map = useRecoilValue(mapState);
-  
+
   const loadKakaoMarker = useCallback(() => {
     if (map) {
       //  kakao map marker
-      let markerPosition = new window.kakao.maps.LatLng((store?.lat), (store?.lng));
-      let imageSrc = store?.category ? `/Image/markers/${store?.category}.png` : `/images/markers/default.png`;
+      let markerPosition = new window.kakao.maps.LatLng(store?.lat, store?.lng);
+      let imageSrc = store?.category
+        ? `/Image/markers/${store?.category}.png`
+        : `/images/markers/default.png`;
       let imageSize = new window.kakao.maps.Size(40, 40);
       let imageOption = { offset: new window.kakao.maps.Point(27, 69) };
 
       let markerImage = new window.kakao.maps.MarkerImage(
         imageSrc,
         imageSize,
-        imageOption
+        imageOption,
       );
       let marker = new window.kakao.maps.Marker({
         position: markerPosition,
@@ -46,12 +48,11 @@ export default function Marker({ store }: MarkerProps) {
       window.kakao.maps.event.addListener(marker, "mouseout", function () {
         customOverlay.setMap(map);
       });
-  }}, [map, store]);
+    }
+  }, [map, store]);
 
   useEffect(() => {
     loadKakaoMarker();
-  }, [loadKakaoMarker, map])
-  return (
-    <></>
-  )
+  }, [loadKakaoMarker, map]);
+  return <></>;
 }
