@@ -41,7 +41,7 @@ export default function Navbar() {
         <div
           role="presentation"
           className="navbar__button"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen((val) => !val)}
         >
           {isOpen ? <AiOutlineClose /> : <BiMenu />}
         </div>

@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  email     String?   @unique
+  email     String   @unique
   name      String?
   emailVerified DateTime?
   image         String?
@@ -31,7 +31,17 @@ model Store {
   category  String?  // bizcnd_code_nm
   storeType String?  // cob_code_nm
   foodCertifyName String? // crtfc_gbn_nm
-  likes     Like[]
+  likes         Like[]
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  storeId   Int
+  userId    Int
+  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, storeId])
 }
 
 
@@ -61,19 +71,6 @@ model Session {
   userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Like {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  userId    Int
-  storeId   Int
-  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId, storeId], name: "userId_storeId")
-  @@unique([userId, storeId])
-
 }
 
 
