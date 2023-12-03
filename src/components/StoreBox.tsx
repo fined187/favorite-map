@@ -12,6 +12,7 @@ import { HiOutlineMapPin } from "react-icons/hi2";
 import { currentStoreState } from "@/atom";
 import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
+import Like from "./Like";
 
 export default function StoreBox() {
   const router = useRouter();
@@ -46,9 +47,12 @@ export default function StoreBox() {
                 <AiOutlineClose />
               </button>
             </div>
-            <div className="mt-4 flex gap-2 items-center">
-              <HiOutlineMapPin />
-              {store?.address}
+            <div className="flex justify-between gap-4">
+              <div className="mt-4 flex gap-2 items-center col-span">
+                <HiOutlineMapPin />
+                {store?.address || "주소가 없습니다."}
+              </div>
+              <Like storeId={store.id} />
             </div>
             <div className="mt-4 flex gap-2 items-center">
               <AiOutlinePhone />
