@@ -15,6 +15,7 @@ export interface LikeInterface {
   id: number;
   userId: number;
   storeId: number;
+  store?: StoreType;
 }
 
 export interface StoreApiResponse {
@@ -22,6 +23,12 @@ export interface StoreApiResponse {
   totalPage?: number;
   totalCount?: number;
   page?: number;
+}
+
+export interface LikeApiResponse {
+  data: LikeInterface[];
+  totalPage?: number;
+  page?: number; 
 }
 
 export interface LocationType {

@@ -11,6 +11,7 @@ import Loader from "@/components/Loader";
 import SearchFilter from "@/components/SearchFilter";
 import { useRecoilValue } from "recoil";
 import { searchState } from "@/atom";
+import StoreList from "@/components/StoreList";
 
 export default function StoreListPage() {
   const router = useRouter();
@@ -90,39 +91,7 @@ export default function StoreListPage() {
           stores?.pages?.map((page, index) => (
             <React.Fragment key={index}>
               {page.data.map((store: StoreType, i: number) => (
-                <li
-                  className="flex justify-between gap-x-6 py-5 cursor-pointer hover:bg-gray-50"
-                  key={i}
-                  onClick={() => router.push(`stores/${store?.id}`)}
-                >
-                  <div className="flex gap-x-4">
-                    <Image
-                      src={
-                        store.category
-                          ? `/Image/markers/${store.category}.png`
-                          : `/Image/markers/default.png`
-                      }
-                      alt="마커 이미지"
-                      width={48}
-                      height={48}
-                    />
-                    <div>
-                      <div className="text-sm font-semibold leading-9 text-gray-900">
-                        {store?.name}
-                      </div>
-                      <div className="mt-1 text-xs truncate font-semibold leading-5 text-gray-500">
-                        {store?.storeType}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="hidden sm:flex sm:flex-col sm:items-end">
-                    {store?.address}
-                  </div>
-                  <div className="hidden sm:flex sm:flex-col sm:items-end">
-                    {store?.phone || "번호 없음"} | {store?.foodCertifyName} |{" "}
-                    {store?.category}
-                  </div>
-                </li>
+                <StoreList store={store} i={i} key={i} />
               ))}
             </React.Fragment>
           ))
