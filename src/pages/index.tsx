@@ -15,10 +15,9 @@ export default function Home({ stores }: { stores: StoreType[] }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const stores = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`);
   return {
     props: { stores: stores.data },
-    revalidate: 60 * 60,
   };
 }
