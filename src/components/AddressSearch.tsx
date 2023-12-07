@@ -9,21 +9,25 @@ interface AddressSearchProps {
   setValue: UseFormSetValue<StoreType>;
 }
 
-export default function AddressSearch({ register, errors, setValue }: AddressSearchProps) {
+export default function AddressSearch({
+  register,
+  errors,
+  setValue,
+}: AddressSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
   const handleComplete = (data: any) => {
-
     let fullAddress = data.address;
-    let extraAddress = '';
+    let extraAddress = "";
 
-    if (data.addressType === 'R') {
-      if (data.bname !== '') {
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
         extraAddress += data.bname;
       }
-      if (data.buildingName !== '') {
-        extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
-      fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
     setValue("address", fullAddress);
     setIsOpen(false);
@@ -54,7 +58,7 @@ export default function AddressSearch({ register, errors, setValue }: AddressSea
               주소 검색
             </button>
           </div>
-          {errors.address?.type === 'required' && (
+          {errors.address?.type === "required" && (
             <div className="pt-2 text-xs text-red-600">
               필수 입력 항목입니다.
             </div>
@@ -63,9 +67,9 @@ export default function AddressSearch({ register, errors, setValue }: AddressSea
       </div>
       {isOpen && (
         <div className="border border-gray-300 w-full md:col-span-3 col-span-full rounded-md p-2">
-          <DaumPostcodeEmbed onComplete={handleComplete}/>
+          <DaumPostcodeEmbed onComplete={handleComplete} />
         </div>
       )}
     </>
-  )
+  );
 }

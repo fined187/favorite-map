@@ -7,25 +7,33 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 export default function StoreNewPage() {
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<StoreType>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<StoreType>();
   const router = useRouter();
   return (
-    <form className="px-4 md:max-w-4xl mx-auto py-8" onSubmit={handleSubmit(async (data) => {
-      try {
-        const result = await axios.post("/api/stores", data);
-        if (result.status === 200) {
-          //  success
-          toast.success("데이터가 생성되었습니다.");
-          router.replace(`/stores/${result?.data?.id}`);
-        } else {
-          // fail
+    <form
+      className="px-4 md:max-w-4xl mx-auto py-8"
+      onSubmit={handleSubmit(async (data) => {
+        try {
+          const result = await axios.post("/api/stores", data);
+          if (result.status === 200) {
+            //  success
+            toast.success("데이터가 생성되었습니다.");
+            router.replace(`/stores/${result?.data?.id}`);
+          } else {
+            // fail
+            toast.error("데이터 생성 중 문제가 생겼습니다. 다시 시도해주세요.");
+          }
+        } catch (error) {
+          console.log(error);
           toast.error("데이터 생성 중 문제가 생겼습니다. 다시 시도해주세요.");
         }
-      } catch (error) {
-        console.log(error);
-        toast.error("데이터 생성 중 문제가 생겼습니다. 다시 시도해주세요.");
-      }
-    })}>
+      })}
+    >
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -48,7 +56,7 @@ export default function StoreNewPage() {
                   {...register("name", { required: true })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 outline-none px-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {errors.name?.type === 'required' && (
+                {errors.name?.type === "required" && (
                   <div className="pt-2 text-xs text-red-600">
                     필수 입력 항목입니다.
                   </div>
@@ -67,16 +75,14 @@ export default function StoreNewPage() {
                   {...register("category", { required: true })}
                   className="block w-full rounded-md px-2 outline-none border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
-                  <option value="">
-                    카테고리 선택
-                  </option>
+                  <option value="">카테고리 선택</option>
                   {CATEGORY_ARR?.map((category) => (
                     <option key={category} value={category}>
                       {category}
                     </option>
                   ))}
                 </select>
-                {errors.category?.type === 'required' && (
+                {errors.category?.type === "required" && (
                   <div className="pt-2 text-xs text-red-600">
                     필수 입력 항목입니다.
                   </div>
@@ -96,11 +102,11 @@ export default function StoreNewPage() {
                   className="block w-full outline-none px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              {errors.phone?.type === 'required' && (
-                  <div className="pt-2 text-xs text-red-600">
-                    필수 입력 항목입니다.
-                  </div>
-                )}
+              {errors.phone?.type === "required" && (
+                <div className="pt-2 text-xs text-red-600">
+                  필수 입력 항목입니다.
+                </div>
+              )}
             </div>
             <AddressSearch
               setValue={setValue}
@@ -126,7 +132,7 @@ export default function StoreNewPage() {
                     </option>
                   ))}
                 </select>
-                {errors.address?.type === 'required' && (
+                {errors.address?.type === "required" && (
                   <div className="pt-2 text-xs text-red-600">
                     필수 입력 항목입니다.
                   </div>
@@ -152,7 +158,7 @@ export default function StoreNewPage() {
                     </option>
                   ))}
                 </select>
-                {errors.address?.type === 'required' && (
+                {errors.address?.type === "required" && (
                   <div className="pt-2 text-xs text-red-600">
                     필수 입력 항목입니다.
                   </div>

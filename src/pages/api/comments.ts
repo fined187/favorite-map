@@ -9,16 +9,23 @@ interface ResponseType {
   page?: string;
   limit?: string;
   storeId?: string;
+  user?: boolean;
 }
 
-export default async function handler (
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CommentInterface | CommentApiResponse>
+  res: NextApiResponse<CommentInterface | CommentApiResponse>,
 ) {
   const session = await getServerSession(req, res, authOptions);
-  const { id="", page = "1", limit = "10", storeId = ""}: ResponseType = req.query;
-  
-  if(req.method === "POST") {
+  const {
+    id = "",
+    page = "1",
+    limit = "10",
+    storeId = "",
+    user = false,
+  }: ResponseType = req.query;
+
+  if (req.method === "POST") {
     if (!session?.user) {
       return res.status(401);
     }
@@ -26,11 +33,12 @@ export default async function handler (
     const { storeId, body }: { storeId: number; body: string } = req.body;
     const comment = await prisma.comment.create({
       data: {
-        storeId: Number(storeId),
-        userId: Number(session?.user?.id),
-        body
-      }
-    })
+        storeId,
+        userId: session?.user?.id,
+        body,
+      },
+    });
+
     return res.status(200).json(comment);
   } else if (req.method === "DELETE") {
     if (!session?.user || !id) {
@@ -38,35 +46,38 @@ export default async function handler (
     }
     const result = await prisma.comment.delete({
       where: {
-        id: parseInt(id)
-      }
+        id: parseInt(id),
+      },
     });
     return res.status(200).json(result);
   } else {
     const skipPage = parseInt(page) - 1;
     const count = await prisma.comment.count({
       where: {
-        storeId: storeId ? parseInt(storeId) : {}
-      }
+        storeId: storeId ? parseInt(storeId) : {},
+        userId: user ? session?.user?.id : {},
+      },
     });
     const comments = await prisma.comment.findMany({
       orderBy: {
-        createdAt: "desc"
+        createdAt: "desc",
       },
       where: {
-        storeId: storeId ? parseInt(storeId) : {}
+        storeId: storeId ? parseInt(storeId) : {},
+        userId: user ? session?.user?.id : {},
       },
       skip: skipPage * parseInt(limit),
       take: parseInt(limit),
       include: {
         user: true,
-      }
+        store: true,
+      },
     });
 
     return res.status(200).json({
       data: comments,
       totalPage: Math.ceil(count / parseInt(limit)),
-      page: parseInt(page)
+      page: parseInt(page),
     });
   }
 }

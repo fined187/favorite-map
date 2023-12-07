@@ -39,7 +39,7 @@ export const CATEGORY_ARR = [
   "인도_중동",
   "탕류",
   "복어취급",
-  "default"
+  "default",
 ];
 
 export const FOOD_CERTIFY_ARR = [
@@ -48,11 +48,7 @@ export const FOOD_CERTIFY_ARR = [
   "저염실천음식점",
   "식생활체험공간",
   "농부시장",
-  "친환경유기농식품판매점"
+  "친환경유기농식품판매점",
 ];
 
-export const STORE_TYPE_ARR = [
-  "일반음식점",
-  "휴게음식점",
-  "제과음식점",
-]
+export const STORE_TYPE_ARR = ["일반음식점", "휴게음식점", "제과음식점"];

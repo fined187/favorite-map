@@ -11,15 +11,25 @@ import { toast } from "react-toastify";
 export default function StoreEditPage() {
   const router = useRouter();
   const { id } = router.query;
-  
+
   const fetchStore = async () => {
     const { data } = await axios(`/api/stores?id=${id}`);
     return data as StoreType;
   };
 
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<StoreType>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<StoreType>();
 
-  const { data: store, isFetching, isSuccess, isError } = useQuery(`store-${id}`, fetchStore, {
+  const {
+    data: store,
+    isFetching,
+    isSuccess,
+    isError,
+  } = useQuery(`store-${id}`, fetchStore, {
     onSuccess: (data) => {
       console.log(data);
       setValue("name", data.name);
@@ -36,37 +46,40 @@ export default function StoreEditPage() {
     refetchOnWindowFocus: false,
   });
 
-  if(isError) {
+  if (isError) {
     return (
       <div className="w-full h-screen mx-auto pt-[10%] text-red-500 text-center font-semibold">
         에러가 발생했습니다. 다시 시도하세요.
       </div>
-    )
+    );
   }
 
-  if(isFetching) {
+  if (isFetching) {
     return (
       <Loader className="w-full h-screen mx-auto pt-[10%] text-red-500 text-center font-semibold" />
-    )
+    );
   }
-  
+
   return (
-    <form className="px-4 md:max-w-4xl mx-auto py-8" onSubmit={handleSubmit(async (data) => {
-      try {
-        const result = await axios.put("/api/stores", data);
-        if (result.status === 200) {
-          //  success
-          toast.success("데이터가 수정되었습니다.");
-          router.replace(`/stores/${result?.data?.id}`);
-        } else {
-          // fail
+    <form
+      className="px-4 md:max-w-4xl mx-auto py-8"
+      onSubmit={handleSubmit(async (data) => {
+        try {
+          const result = await axios.put("/api/stores", data);
+          if (result.status === 200) {
+            //  success
+            toast.success("데이터가 수정되었습니다.");
+            router.replace(`/stores/${result?.data?.id}`);
+          } else {
+            // fail
+            toast.error("데이터 생성 중 문제가 생겼습니다. 다시 시도해주세요.");
+          }
+        } catch (error) {
+          console.log(error);
           toast.error("데이터 생성 중 문제가 생겼습니다. 다시 시도해주세요.");
         }
-      } catch (error) {
-        console.log(error);
-        toast.error("데이터 생성 중 문제가 생겼습니다. 다시 시도해주세요.");
-      }
-    })}>
+      })}
+    >
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -89,7 +102,7 @@ export default function StoreEditPage() {
                   {...register("name", { required: true })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 outline-none px-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {errors.name?.type === 'required' && (
+                {errors.name?.type === "required" && (
                   <div className="pt-2 text-xs text-red-600">
                     필수 입력 항목입니다.
                   </div>
@@ -108,16 +121,14 @@ export default function StoreEditPage() {
                   {...register("category", { required: true })}
                   className="block w-full rounded-md px-2 outline-none border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
-                  <option value="">
-                    카테고리 선택
-                  </option>
+                  <option value="">카테고리 선택</option>
                   {CATEGORY_ARR?.map((category) => (
                     <option key={category} value={category}>
                       {category}
                     </option>
                   ))}
                 </select>
-                {errors.category?.type === 'required' && (
+                {errors.category?.type === "required" && (
                   <div className="pt-2 text-xs text-red-600">
                     필수 입력 항목입니다.
                   </div>
@@ -137,11 +148,11 @@ export default function StoreEditPage() {
                   className="block w-full outline-none px-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              {errors.phone?.type === 'required' && (
-                  <div className="pt-2 text-xs text-red-600">
-                    필수 입력 항목입니다.
-                  </div>
-                )}
+              {errors.phone?.type === "required" && (
+                <div className="pt-2 text-xs text-red-600">
+                  필수 입력 항목입니다.
+                </div>
+              )}
             </div>
             <AddressSearch
               setValue={setValue}
@@ -167,7 +178,7 @@ export default function StoreEditPage() {
                     </option>
                   ))}
                 </select>
-                {errors.address?.type === 'required' && (
+                {errors.address?.type === "required" && (
                   <div className="pt-2 text-xs text-red-600">
                     필수 입력 항목입니다.
                   </div>
@@ -193,7 +204,7 @@ export default function StoreEditPage() {
                     </option>
                   ))}
                 </select>
-                {errors.address?.type === 'required' && (
+                {errors.address?.type === "required" && (
                   <div className="pt-2 text-xs text-red-600">
                     필수 입력 항목입니다.
                   </div>

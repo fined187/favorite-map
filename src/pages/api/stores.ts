@@ -16,7 +16,7 @@ interface Responsetype {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<StoreApiResponse | StoreType[] | StoreType | null>
+  res: NextApiResponse<StoreApiResponse | StoreType[] | StoreType | null>,
 ) {
   const { page = "", limit = "", q, district, id }: Responsetype = req.query;
   const session = await getServerSession(req, res, authOptions);
@@ -30,9 +30,9 @@ export default async function handler(
 
     const { data } = await axios.get(
       `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURI(
-        formData.address
+        formData.address,
       )}`,
-      { headers }
+      { headers },
     );
 
     const result = await prisma.store.create({
@@ -49,9 +49,9 @@ export default async function handler(
 
     const { data } = await axios.get(
       `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURI(
-        formData.address
+        formData.address,
       )}`,
-      { headers }
+      { headers },
     );
 
     const result = await prisma.store.update({

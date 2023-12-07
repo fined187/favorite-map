@@ -1,12 +1,16 @@
 import Link from "next/link";
 
 interface PaginationProps {
-  totalPage: number;
+  totalPage?: number;
   page: string;
   pathname: string;
 }
 
-export default function Pagination({ totalPage, page, pathname }: PaginationProps) {
+export default function Pagination({
+  totalPage = 0,
+  page,
+  pathname,
+}: PaginationProps) {
   return (
     <div className="py-6 w-full px-10 flex justify-center gap-3 bg-white my-10 flex-wrap">
       {totalPage <= 10 ? (

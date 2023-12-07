@@ -41,8 +41,8 @@ model Like {
   createdAt DateTime @default(now())
   storeId   Int
   userId    Int
-  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  store     Store    @relation(fields: [storeId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
   @@index([userId, storeId])
 }
 
@@ -52,8 +52,8 @@ model Comment {
   storeId   Int
   userId    Int
   body      String
-  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  store     Store    @relation(fields: [storeId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
   @@index([userId, storeId])
 }
 
@@ -63,16 +63,16 @@ model Account {
   type               String
   provider           String
   providerAccountId  String
-  refresh_token      String?  @db.Text
+  refresh_token      String?  
   refresh_token_expires_in   Int?
-  access_token       String?  @db.Text
+  access_token       String?  
   expires_at         Int?
   token_type         String?
   scope              String?
-  id_token           String?  @db.Text
+  id_token           String?  
   session_state      String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id])
 
   @@unique([provider, providerAccountId])
 }
@@ -82,7 +82,7 @@ model Session {
   sessionToken String   @unique
   userId       Int
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id])
 }
 model VerificationToken {
   identifier String

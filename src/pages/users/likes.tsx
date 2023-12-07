@@ -8,7 +8,7 @@ import Pagination from "@/components/Pagination";
 
 export default function LikesPage() {
   const router = useRouter();
-  const { page = "1"}: any = router.query;
+  const { page = "1" }: any = router.query;
   const fetchLikes = async () => {
     const { data } = await axios(`/api/likes?limit=10&page=${page}`);
     return data as LikeApiResponse;
@@ -22,7 +22,7 @@ export default function LikesPage() {
         다시 시도해주세요
       </div>
     );
-  };
+  }
 
   return (
     <div className="px-4 md:max-w-4xl mx-auto py-8">
@@ -37,9 +37,11 @@ export default function LikesPage() {
           ))
         )}
       </ul>
-      {likes?.totalPage && likes?.totalPage > 0 && (
-        <Pagination totalPage={likes.totalPage} page={page} pathname="/users/likes" />
-      )}
+      <Pagination
+        totalPage={likes?.totalPage}
+        page={page}
+        pathname="/users/likes"
+      />
     </div>
   );
-};
+}

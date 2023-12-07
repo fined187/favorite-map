@@ -41,7 +41,7 @@
   }
 
   .navbar__list--item--mobile {
-    @apply cursor-pointer ;
+    @apply cursor-pointer;
   }
 
   .navbar__button {

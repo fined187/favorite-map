@@ -37,7 +37,7 @@ export interface StoreApiResponse {
 export interface LikeApiResponse {
   data: LikeInterface[];
   totalPage?: number;
-  page?: number; 
+  page?: number;
 }
 
 export interface LocationType {
