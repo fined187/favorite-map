@@ -1,3 +1,5 @@
+import { DateTime } from "next-auth/providers/kakao";
+
 export interface StoreType {
   id: number;
   phone?: string | null;
@@ -9,6 +11,13 @@ export interface StoreType {
   storeType?: string | null;
   foodCertifyName?: string | null;
   likes?: LikeInterface[];
+}
+
+export interface UserType {
+  id: number;
+  email: string;
+  name?: string | null;
+  image?: string | null;
 }
 
 export interface LikeInterface {
@@ -40,4 +49,20 @@ export interface LocationType {
 export interface SearchType {
   q?: string;
   district?: string;
+}
+
+export interface CommentInterface {
+  id: number;
+  storeId: number;
+  userId: number;
+  store?: StoreType;
+  body: string;
+  user?: UserType;
+  createdAt: Date;
+}
+
+export interface CommentApiResponse {
+  data: CommentInterface[];
+  totalPage?: number;
+  page?: number;
 }
