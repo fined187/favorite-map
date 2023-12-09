@@ -1,11 +1,9 @@
 "use client";
 import React, { useCallback, useEffect, useRef } from "react";
 import { StoreType } from "@/interface";
-import Image from "next/image";
 import axios from "axios";
 import { useInfiniteQuery } from "react-query";
 import Loading from "@/components/Loading";
-import { useRouter } from "next/router";
 import useIntersectionObserver from "@/hook/useIntersectionObserver";
 import Loader from "@/components/Loader";
 import SearchFilter from "@/components/SearchFilter";
@@ -14,7 +12,6 @@ import { searchState } from "@/atom";
 import StoreList from "@/components/StoreList";
 
 export default function StoreListPage() {
-  const router = useRouter();
   const ref = useRef<HTMLDivElement | null>(null);
   const pageRef = useIntersectionObserver(ref, {});
   const isPageEnd = !!pageRef?.isIntersecting;
@@ -48,6 +45,7 @@ export default function StoreListPage() {
     isFetchingNextPage,
     hasNextPage,
     isError,
+    isSuccess,
     isLoading,
   } = useInfiniteQuery(["stores", searchParams], fetchStores, {
     getNextPageParam: (lastPage: any) =>

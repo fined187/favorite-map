@@ -1,3 +1,4 @@
+'use client';
 import { mapState } from '@/atom';
 import Kakao from 'next-auth/providers/kakao';
 import { useState } from 'react';

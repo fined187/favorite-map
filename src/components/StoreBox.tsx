@@ -1,17 +1,15 @@
-import { StoreType } from "@/interface";
+'use client';
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
 import {
   AiOutlineClose,
   AiOutlineInfoCircle,
   AiOutlineCheck,
-  AiOutlineForm,
   AiOutlinePhone,
 } from "react-icons/ai";
 import { HiOutlineMapPin } from "react-icons/hi2";
 import { currentStoreState } from "@/atom";
 import { useRecoilState } from "recoil";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Like from "./Like";
 
 export default function StoreBox() {

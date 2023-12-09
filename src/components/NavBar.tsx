@@ -17,7 +17,7 @@ export default function Navbar() {
           <Link href="/stores" className="navbar__list--item">
             맛집 목록
           </Link>
-          <Link href="/stores/new" className="navbar__list--item">
+          <Link href="/new" className="navbar__list--item">
             맛집 등록
           </Link>
           <Link href="/users/likes" className="navbar__list--item">
@@ -61,7 +61,7 @@ export default function Navbar() {
               맛집 목록
             </Link>
             <Link
-              href="/stores/new"
+              href="/new"
               className="navbar__list--item--mobile"
               onClick={() => setIsOpen(false)}
             >

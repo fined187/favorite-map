@@ -1,4 +1,5 @@
 /* global kakao */
+'use client';
 import Script from "next/script";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
