@@ -6,17 +6,15 @@ import axios from "axios";
 import { useSession, signOut } from "next-auth/react";
 import { useQuery } from "react-query";
 
-export default function MyPage({ params }: { params: { page: string }}) {
+export default function MyPage({ searchParams }: { searchParams: { page: string }}) {
   
-  const page = params?.page || "1";
+  const page = searchParams?.page || "1";
   const fetchComments = async () => {
     const { data } = await axios(
       `/api/comments?limit=5&page=${page}&user=true`,
     );
     return data as CommentApiResponse;
   };
-
-  const { status } = useSession();
 
   const { data: comments, refetch } = useQuery(
     `comments-${page}`,

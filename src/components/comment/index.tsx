@@ -8,11 +8,10 @@ import Pagination from "../Pagination";
 
 interface CommentProps {
   storeId: number;
-  params?: { page: string };
+  page?: string ;
 }
 
-export default function Comment({ storeId, params }: CommentProps) {
-  const page = params?.page || "1";
+export default function Comment({ storeId, page }: CommentProps) {
   const fetchComments = async () => {
     const { data } = await axios(
       `/api/comments?storeId=${storeId}&limit=5&page=${page}`,

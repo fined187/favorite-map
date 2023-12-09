@@ -17,9 +17,13 @@ export default async function Home() {
 }
 
 async function getData() {
-  const stores = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`, { cache: "no-store" });
-  if(!stores.ok) {
-    throw new Error("An error occurred while fetching the data.");
+  try {
+    const stores = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`, { cache: "no-store" });
+    if(!stores.ok) {
+      throw new Error("An error occurred while fetching the data.");
+    }
+    return stores.json();
+  } catch (error) {
+    console.error(error);
   }
-  return stores.json();
-}
+};
