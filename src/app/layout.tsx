@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { NextProvider, NextLayout } from "./provider";
+import { NextProvider, NextLayout } from "./providers";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
